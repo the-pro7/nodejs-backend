@@ -1,39 +1,26 @@
 const express = require("express")
+const erroHandler = require("../middleware/errorHandler")
 const dotenv = require("dotenv").config()
+const mongoose = require("mongoose")
 
+// Initialize intance of express server
 const app = express()
 
+// Midleware for express app
+app.use(erroHandler)
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 
+// Port for requests
 const port = process.env.PORT || 5000
 
-// app.use("/api/contacts", require("../controllers/contactController"))
-app.get("/api/contacts", (req, res) => {
-    res.status(200).send("Get all contacts")
-})
+app.use("/api/contacts", require("../routes/contactRoutes"))
 
-// Post to source
-app.post("/api/contacts", (req, res) => {
-    res.status(201).send("Post contacts")
-})
+mongoose.connect(process.env.CONNECTION_STRING).then(()=> {
+    console.log("connected")
+    app.listen(port, () => {
+        console.log(`App running on ${port}`)
+    })
+}).catch(err => console.log(err.stack))
 
-// Get a single contact
-app.get("/api/contacts/:id", (req, res) => {
-    res.status(201).send(`Get contact ${req.params.id}`)
-})
-
-// Update a single contact
-app.put("/api/contacts/:id", (req, res) => {
-    res.status(201).send(`Add new contact ${req.params.id}`)
-})
-
-// Delete a single contact
-app.delete("/api/contacts/:id", (req, res) => {
-    res.status(200).send(`Delete contact ${req.params.id}`)
-})
-
-app.listen(port, () => {
-    console.log(`App running on ${port}`)
-})
 
