@@ -34,9 +34,9 @@ router.route("/").post(async (req, res) => {
 
 router
 	.route("/:id")
-	.get((req, res) => {
+	.get(async (req, res) => {
         const {id} = req.params.id
-        let contact =  Contact.findById(id)
+        let contact = await Contact.findById(id)
 
         if (!contact) {
             throw new Error(`No contact found with id ${req.params.id}`)
