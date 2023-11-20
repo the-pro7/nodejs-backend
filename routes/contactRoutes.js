@@ -19,6 +19,7 @@ router.route("/").post(async (req, res) => {
 	if ((!name, !email, !phone)) {
 		throw new Error("All fields are mandatory");
 	}
+
 	let contact = await Contact.create({
 		name: name,
 		email: email,
@@ -46,9 +47,14 @@ router
 			.json(contact);
 	})
 	.put((req, res) => {
+		const {id} = req.params.id
+
+		let contact =  Contact.findByIdAndUpdate(id, req.body, {new: true})
+
+		if (!contact) throw new Error("Could not find the contact you are looking for!")
 		res
 			.status(200)
-			.json({ message: `Update contact with id ${req.params.id}` });
+			.json(contact);
 	})
 	.delete((req, res) => {
 		res

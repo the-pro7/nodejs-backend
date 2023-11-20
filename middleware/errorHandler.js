@@ -1,6 +1,6 @@
 const { STATUS_CODES } = require("../statusCodes");
 
-function erroHandler(err, req, res, next) {
+module.exports =  function errorHandler(err, req, res, next) {
 	const statusCode = res.statusCode ? res.statusCode : 500;
 
 	switch (statusCode) {
@@ -35,9 +35,9 @@ function erroHandler(err, req, res, next) {
                 stackTrace: err.stack
             })
 		default:
-			res.status(200).json({});
+			console.log("No errors all good")
 	}
 	console.log(statusCode);
 }
 
-module.exports = erroHandler;
+

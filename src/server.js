@@ -1,5 +1,5 @@
 const express = require("express")
-const erroHandler = require("../middleware/errorHandler")
+const errorHandler = require("../middleware/errorHandler")
 const dotenv = require("dotenv").config()
 const mongoose = require("mongoose")
 
@@ -7,7 +7,7 @@ const mongoose = require("mongoose")
 const app = express()
 
 // Midleware for express app
-app.use(erroHandler)
+app.use(errorHandler)
 app.use(express.json())
 // Allow app to read front-end form data
 app.use(express.urlencoded({extended: true}))
